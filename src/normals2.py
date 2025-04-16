@@ -2,8 +2,6 @@ import open3d as o3d
 import numpy as np
 from scipy.spatial import Voronoi
 from scipy.spatial import KDTree
-import polyscope as ps
-from plyfile import PlyData
 
 def compute_anisotropy(cov):
     eigvals = np.linalg.eigvalsh(cov)
@@ -69,20 +67,23 @@ def compute_voronoi_normals_with_anisotropy(pcd, k=50, threshold=0.9):
     pcd.normals = o3d.utility.Vector3dVector(normals)
     return normals, confidences
 
-pcd = o3d.io.read_point_cloud("src/data/bunny/reconstruction/bun_zipper.ply")
+# if __name__ == "__main__":
+    # import polyscope as ps
+    # from plyfile import PlyData
+    # pcd = o3d.io.read_point_cloud("src/data/bunny/reconstruction/bun_zipper.ply")
 
-normals, confidences = compute_voronoi_normals_with_anisotropy(pcd)
+    # normals, confidences = compute_voronoi_normals_with_anisotropy(pcd)
 
-def read_ply(filepath):
-    plydata = PlyData.read(filepath)
-    vertices = np.vstack([plydata['vertex'][axis] for axis in ('x', 'y', 'z')]).T
-    return vertices
+    # def read_ply(filepath):
+    #     plydata = PlyData.read(filepath)
+    #     vertices = np.vstack([plydata['vertex'][axis] for axis in ('x', 'y', 'z')]).T
+    #     return vertices
 
-points = read_ply("src/data/bunny/reconstruction/bun_zipper.ply")
+    # points = read_ply("src/data/bunny/reconstruction/bun_zipper.ply")
 
-ps.init()
-ps_cloud = ps.register_point_cloud("point cloud", points)
-ps_cloud.add_vector_quantity("normals", normals, enabled=True)
+    # ps.init()
+    # ps_cloud = ps.register_point_cloud("point cloud", points)
+    # ps_cloud.add_vector_quantity("normals", normals, enabled=True)
 
-ps.show()
+    # ps.show()
 
